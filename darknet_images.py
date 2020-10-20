@@ -49,7 +49,7 @@ def save_annotations(name, image, detections, class_names):
 
 
 
-def classify_photo(image_rgb):
+def classify_photo(image_rgb,thresh=0.25):
     config_file__ = "cfg/yolov4-obj.cfg"
     data_file__ = "data/obj.data"
     weights__ = "custom-yolov4-detector_best.weights"
@@ -64,7 +64,7 @@ def classify_photo(image_rgb):
 
     prev_time = time.time()
     image, detections = image_detection(
-        image_rgb, network, class_names, class_colors, args.thresh
+        image_rgb, network, class_names, class_colors, thresh
         )
     print(detections)
     #save_annotations(image_name, image, detections, class_names)
