@@ -70,14 +70,15 @@ def classify_photo(image_rgb,thresh=0.25):
     #save_annotations(image_name, image, detections, class_names)
     #darknet.print_detections(detections, args.ext_output)
     #fps = int(1/(time.time() - prev_time))
-    label
-    confidence
-    bbox
+    label = []
+    confidence = []
+    bbox = []
 
     for label_, confidence_, bbox_ in detections:
             bbox.append= convert2relative(image, bbox_)
             label.append(class_names.index(label_))
             confidence.append(confidence_)
-    return  
+    return  label, confidence, bbox
 
 
+1
