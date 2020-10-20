@@ -3,8 +3,6 @@ FROM python:3.6
 COPY requirements.txt .
 ENV HOME /root
 
-COPY . /main
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
 	locales \
         wget \
@@ -45,3 +43,17 @@ RUN git clone http://github.com/opencv/opencv.git && cd opencv \
     && make -j `nproc`                      \
     && make install                         \
     && cd ${HOME} && rm -rf ./opencv/
+
+
+RUN git clone https://github.com/DenisReznikov/YOLOv4_R.git && cd YOLOv4_R \
+    && make \
+    && wget https://github.com/DenisReznikov/YOLOv4_R/releases/download/v1.0/custom-yolov4-detector_best.weights
+
+WORKDIR /root/YOLOv4_R
+
+
+CMD ["python", "test.py"]
+
+
+
+
