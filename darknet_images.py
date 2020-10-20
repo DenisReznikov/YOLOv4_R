@@ -79,6 +79,3 @@ def classify_photo(image_rgb,thresh=0.25):
             label.append(class_names.index(label_))
             confidence.append(confidence_)
     return  label, confidence, bbox
-
-
-1
