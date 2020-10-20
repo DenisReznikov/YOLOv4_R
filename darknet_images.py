@@ -66,7 +66,6 @@ def classify_photo(image_rgb,thresh=0.25):
     image, detections = image_detection(
         image_rgb, network, class_names, class_colors, thresh
         )
-    print(detections)
     #save_annotations(image_name, image, detections, class_names)
     #darknet.print_detections(detections, args.ext_output)
     #fps = int(1/(time.time() - prev_time))
