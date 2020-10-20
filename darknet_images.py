@@ -75,7 +75,7 @@ def classify_photo(image_rgb,thresh=0.25):
     bbox = []
 
     for label_, confidence_, bbox_ in detections:
-            bbox.append= convert2relative(image, bbox_)
+            bbox.append(convert2relative(image, bbox_))
             label.append(class_names.index(label_))
             confidence.append(confidence_)
     return  label, confidence, bbox
