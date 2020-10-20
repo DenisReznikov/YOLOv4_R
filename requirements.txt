@@ -1,11 +1,2 @@
-argparse
-os
-glob
-random
-darknet
-time
-cv2
 numpy
-math
-ctypes
-darknet
+opencv-python
