@@ -8,45 +8,6 @@ import cv2
 import numpy as np
 import darknet
 
-"""
-def parser():
-    parser = argparse.ArgumentParser(description="YOLO Object Detection")
-    parser.add_argument("--input", type=str, default="",
-                        help="image source. It can be a single image, a"
-                        "txt with paths to them, or a folder. Image valid"
-                        " formats are jpg, jpeg or png."
-                        "If no input is given, ")
-    parser.add_argument("--batch_size", default=1, type=int,
-                        help="number of images to be processed at the same time")
-    parser.add_argument("--weights", default="custom-yolov4-detector_best.weights",
-                        help="yolo weights path")
-    parser.add_argument("--dont_show", action='store_true',
-                        help="windown inference display. For headless systems")
-    parser.add_argument("--ext_output", action='store_true',
-                        help="display bbox coordinates of detected objects")
-    parser.add_argument("--save_labels", action='store_true',
-                        help="save detections bbox for each image in yolo format")
-    parser.add_argument("--config_file", default="cfg/yolov4-obj.cfg",
-                        help="path to config file")
-    parser.add_argument("--data_file", default="data/obj.data",
-                        help="path to data file")
-    parser.add_argument("--thresh", type=float, default=.25,
-                        help="remove detections with lower confidence")
-    return parser.parse_args()
-"""
-
-
-def check_batch_shape(images, batch_size):
-    """
-        Image sizes should be the same width and height
-    """
-    shapes = [image.shape for image in images]
-    if len(set(shapes)) > 1:
-        raise ValueError("Images don't have same shape")
-    if len(shapes) > batch_size:
-        raise ValueError("Batch size higher than number of images")
-    return shapes[0]
-
 
 def load_images(images_path):
     """
@@ -126,27 +87,16 @@ def classify_photo():
 
     images = load_images(args.input)
     
-    index = 0
-    while True:
-        # loop asking for new image paths if no list is given
-        if args.input:
-            if index >= len(images):
-                break
-            image_name = images[index]
-        else:
-            image_name = input("Enter Image Path: ")
-        prev_time = time.time()
-        image, detections = image_detection(
-            image_name, network, class_names, class_colors, args.thresh
-            )
-        
-        save_annotations(image_name, image, detections, class_names)
-        darknet.print_detections(detections, args.ext_output)
-        fps = int(1/(time.time() - prev_time))
-        print("FPS: {}".format(fps))
-        if not args.dont_show:
-            cv2.imshow('Inference', image)
-            if cv2.waitKey() & 0xFF == ord('q'):
-                break
-        index += 1
+
+    # loop asking for new image paths if no list is given
+    prev_time = time.time()
+    image, detections = image_detection(
+        image_name, network, class_names, class_colors, args.thresh
+        )
+
+    save_annotations(image_name, image, detections, class_names)
+    darknet.print_detections(detections, args.ext_output)
+    fps = int(1/(time.time() - prev_time))
+    print("FPS: {}".format(fps))
+
 
