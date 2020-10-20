@@ -8,38 +8,15 @@ import cv2
 import numpy as np
 import darknet
 
-
-def load_images(images_path):
-    """
-    If image path is given, return it directly
-    For txt file, read it and return each line as image path
-    In other case, it's a folder, return a list with names of each
-    jpg, jpeg and png file
-    """
-    input_path_extension = images_path.split('.')[-1]
-    if input_path_extension in ['jpg', 'jpeg', 'png']:
-        return [images_path]
-    elif input_path_extension == "txt":
-        with open(images_path, "r") as f:
-            return f.read().splitlines()
-    else:
-        return glob.glob(
-            os.path.join(images_path, "*.jpg")) + \
-            glob.glob(os.path.join(images_path, "*.png")) + \
-            glob.glob(os.path.join(images_path, "*.jpeg"))
-
-
-
-
-def image_detection(image_path, network, class_names, class_colors, thresh):
+def image_detection(image, network, class_names, class_colors, thresh):
     # Darknet doesn't accept numpy images.
     # Create one with image we reuse for each detect
     width = darknet.network_width(network)
     height = darknet.network_height(network)
     darknet_image = darknet.make_image(width, height, 3)
 
-    image = cv2.imread(image_path)
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+    image_rgb = image
     image_resized = cv2.resize(image_rgb, (width, height),
                                interpolation=cv2.INTER_LINEAR)
 
@@ -72,7 +49,7 @@ def save_annotations(name, image, detections, class_names):
 
 
 
-def classify_photo():
+def classify_photo(image_rgb):
     config_file__ = "cfg/yolov4-obj.cfg"
     data_file__ = "data/obj.data"
     weights__ = "custom-yolov4-detector_best.weights"
@@ -85,18 +62,14 @@ def classify_photo():
         batch_size=batch_size__
     )
 
-    images = load_images(args.input)
-    
-
-    # loop asking for new image paths if no list is given
     prev_time = time.time()
     image, detections = image_detection(
-        image_name, network, class_names, class_colors, args.thresh
+        image_rgb, network, class_names, class_colors, args.thresh
         )
+    print(detections)
+    #save_annotations(image_name, image, detections, class_names)
+    #darknet.print_detections(detections, args.ext_output)
+    #fps = int(1/(time.time() - prev_time))
 
-    save_annotations(image_name, image, detections, class_names)
-    darknet.print_detections(detections, args.ext_output)
-    fps = int(1/(time.time() - prev_time))
-    print("FPS: {}".format(fps))
 
 
