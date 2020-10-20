@@ -45,7 +45,8 @@ RUN git clone http://github.com/opencv/opencv.git && cd opencv \
     && cd ${HOME} && rm -rf ./opencv/
 
 
-RUN git clone https://github.com/DenisReznikov/YOLOv4_R.git && cd YOLOv4_R \
+
+RUN git clone --depth=50 --branch=main https://github.com/DenisReznikov/YOLOv4_R.git && cd YOLOv4_R \
     && make \
     && wget https://github.com/DenisReznikov/YOLOv4_R/releases/download/v1.0/custom-yolov4-detector_best.weights
 
