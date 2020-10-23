@@ -63,7 +63,7 @@ class Yolo_wrapper():
             raise(ValueError("Invalid data file path {}".format(os.path.abspath(self.__data_file))))
 
 
-        if (len(set(image_rgb.shape)) > 2)
+        if (len(set(image_rgb.shape)) > 2):
             self.__logger.error(f'Image dont have correct shape')
             raise ValueError("Image must have correct shape")
                 
@@ -84,8 +84,8 @@ class Yolo_wrapper():
         except Exception:
             self.__logger.error(f'Error in yolo.In C path')
 
-        fps = int((time.time() - prev_time))
-        self.__logger.info(f'Time for one predict: ' + fps)
+        speed = (time.time() - prev_time)
+        self.__logger.info(f'Time for one predict: ' + str(speed))
 
 
         label = []
