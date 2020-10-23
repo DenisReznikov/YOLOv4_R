@@ -88,8 +88,8 @@ class Yolo_wrapper():
             image, detections = self.__image_detection(
                 image_rgb, network, class_names, class_colors, thresh
                 )
-        except Exception:
-            self.__logger.error(f'Error in yolo.In C path')
+        except Exception as e:
+            self.__logger.error(f'Error in yolo.In C path: {e}')
 
         speed = str(time.time() - prev_time)
         self.__logger.info('Time for one predict: ' + (speed))
