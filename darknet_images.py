@@ -62,9 +62,9 @@ class Yolo_wrapper():
             self.__logger.error(f'Load file error. Data_file')
             raise(ValueError("Invalid data file path {}".format(os.path.abspath(self.__data_file))))
 
-        if len(set(image_rgb.shape)) > 1:
-            self.__logger.error(f'Images dont have same shape')
-            raise ValueError("Images must have same shape")
+         if len(set(image_rgb.shape)) > 2:
+            self.__logger.error(f'Image dont have correct shape')
+            raise ValueError("Image must have correct shape")
         
         random.seed(3)  
         prev_time = time.time()
