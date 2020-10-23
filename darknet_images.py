@@ -16,22 +16,29 @@ class Yolo_wrapper():
         self.__config_file = config_file
         self.__data_file = data_file
         self.__weights = weights
-        
-    
+
+
 
     def __image_detection(self, image, network, class_names, class_colors, thresh):
         width = darknet.network_width(network)
+        self.__logger.info('Network width calculated')
         height = darknet.network_height(network)
+        self.__logger.info('Network hight calculated')
         darknet_image = darknet.make_image(width, height, 3)
-        
+        self.__logger.info('Darknet image produced')
         image_rgb = image
         image_resized = cv2.resize(image_rgb, (width, height),
                                 interpolation=cv2.INTER_LINEAR)
+        self.__logger.info('Image resized')
 
         darknet.copy_image_from_bytes(darknet_image, image_resized.tobytes())
+        self.__logger.info('Image copyed')
         detections = darknet.detect_image(network, class_names, darknet_image, thresh=thresh)
+        self.__logger.info('Detection completed')
         darknet.free_image(darknet_image)
+        self.__logger.info('Image freed')
         image = darknet.draw_boxes(detections, image_resized, class_colors)
+        self.__logger.info('Boxes drawn')
         return cv2.cvtColor(image, cv2.COLOR_BGR2RGB), detections
 
 
@@ -51,7 +58,7 @@ class Yolo_wrapper():
 
 
     def classify_photo(self, image_rgb, thresh=0.25, batch_size=1):
-        
+
         if not os.path.exists(self.__config_file):
             self.__logger.error(f'Load file error. Config_file')
             raise(ValueError("Invalid config path {}".format(os.path.abspath(self.__config_file))))
@@ -66,8 +73,8 @@ class Yolo_wrapper():
         if (len(set(image_rgb.shape)) > 2):
             self.__logger.error(f'Image dont have correct shape')
             raise ValueError("Image must have correct shape")
-                
-        random.seed(3)  
+
+        random.seed(3)
         prev_time = time.time()
 
         network, class_names, class_colors = darknet.load_network(
