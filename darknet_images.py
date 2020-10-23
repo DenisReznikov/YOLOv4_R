@@ -67,6 +67,6 @@ class Yolo_wrapper():
 
         for label_, confidence_, bbox_ in detections:
                 bbox.append(self.__convert2relative(image, bbox_))
-                label.append(class_names.index(label_))
+                label.append(label_)
                 confidence.append(confidence_)
         return  label, confidence, bbox
