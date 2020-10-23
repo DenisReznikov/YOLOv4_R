@@ -84,7 +84,7 @@ class Yolo_wrapper():
         except Exception:
             self.__logger.error(f'Error in yolo.In C path')
 
-         speed = str(time.time() - prev_time)
+        speed = str(time.time() - prev_time)
         self.__logger.info('Time for one predict: ' + (speed))
 
 
